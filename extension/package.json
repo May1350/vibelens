@@ -1,11 +1,31 @@
 {
-  "name": "vibelens-sync",
-  "displayName": "VibeLens Quota Sync",
-  "description": "Real-time quota monitoring",
+  "name": "vibelens",
+  "displayName": "VibeLens - AI Quota Mission Control",
+  "description": "Real-time AI model quota monitoring and visualization for Antigravity IDE.",
   "version": "1.0.0",
+  "publisher": "May1350",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/May1350/vibelens"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
+  "categories": [
+    "Visualization",
+    "Productivity",
+    "Data Science"
+  ],
+  "keywords": [
+    "antigravity",
+    "ai",
+    "quota",
+    "gemini",
+    "claude",
+    "monitoring",
+    "vibelens"
+  ],
+  "icon": "resources/icon.svg",
   "activationEvents": [
     "*"
   ],
