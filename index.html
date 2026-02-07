@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeLens | Minimalist AI Quota Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="src/styles/main.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--background)',
+            foreground: 'var(--foreground)',
+            card: {
+              DEFAULT: 'var(--card)',
+              foreground: 'var(--card-foreground)',
+            },
+            primary: {
+              DEFAULT: 'var(--primary)',
+              foreground: 'var(--primary-foreground)',
+            },
+            muted: {
+              DEFAULT: 'var(--muted)',
+              foreground: 'var(--muted-foreground)',
+            },
+            border: 'var(--border)',
+            destructive: {
+              DEFAULT: 'var(--destructive)',
+              foreground: 'var(--destructive-foreground)',
+            }
+          },
+          fontFamily: {
+            sans: ['var(--font-sans)'],
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-background text-foreground min-h-screen font-sans selection:bg-primary/30">
+
+  <div id="app" class="max-w-4xl mx-auto px-6 py-12">
+    <!-- Header -->
+    <header class="mb-12 flex justify-between items-end">
+      <div>
+        <h1 class="text-3xl font-semibold tracking-tighter text-foreground">VibeLens</h1>
+        <p class="text-sm text-muted-foreground mt-1">AI Mission Control Center</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="add-account-btn"
+          class="bg-primary text-primary-foreground px-4 py-1.5 rounded-md text-[11px] font-bold uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer">
+          Add Account
+        </button>
+        <div class="flex items-center gap-3 bg-muted/30 px-3 py-1.5 rounded-full border border-border">
+          <div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+          <span class="text-[10px] font-medium tracking-widest uppercase">Live Sync</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stat Cards Grid -->
+    <main id="dashboard" class="grid grid-cols-1 gap-4">
+      <!-- Injected by app.js -->
+      <div
+        class="h-48 flex items-center justify-center text-muted-foreground animate-pulse border border-dashed border-border rounded-lg">
+        Synchronizing accounts...
+      </div>
+    </main>
+
+    <!-- Action Footer -->
+    <footer
+      class="mt-12 pt-8 border-t border-border flex justify-between items-center text-[11px] text-muted-foreground font-medium uppercase tracking-widest">
+      <div>&copy; 2026 VibeLens System</div>
+      <div class="flex gap-6">
+        <button class="hover:text-primary transition-colors cursor-pointer">Configure API</button>
+        <button class="hover:text-primary transition-colors cursor-pointer"
+          onclick="document.documentElement.classList.toggle('dark')">Toggle Theme</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Account Settings Modal -->
+  <div id="account-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 hidden">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-background/80 backdrop-blur-sm modal-close-trigger"></div>
+
+    <!-- Modal Content -->
+    <div class="relative bg-card border border-border w-full max-w-md rounded-2xl shadow-2xl p-8 overflow-hidden">
+      <div class="flex justify-between items-center mb-8">
+        <h3 class="text-lg font-bold tracking-tight">Setup Account</h3>
+        <button class="text-muted-foreground hover:text-foreground modal-close-trigger transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="account-form" class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Account Label</label>
+          <input type="text" placeholder="e.g. Work Workspace"
+            class="w-full bg-slate-50 dark:bg-black/20 border border-border rounded-lg px-4 py-3 text-sm text-black dark:text-white font-medium focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
+            required>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Email Address</label>
+          <input type="email" placeholder="name@example.com"
+            class="w-full bg-slate-50 dark:bg-black/20 border border-border rounded-lg px-4 py-3 text-sm text-black dark:text-white font-medium focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
+            required>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Sync Connection
+            Key</label>
+          <input type="password" placeholder="Enter AG-Sync-Token"
+            class="w-full bg-slate-50 dark:bg-black/20 border border-border rounded-lg px-4 py-3 text-sm text-black dark:text-white font-medium focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
+            required>
+          <p class="text-[10px] text-muted-foreground/60 italic mt-1">* This key connects your Antigravity plugin to
+            this dashboard.</p>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit"
+            class="w-full bg-primary text-primary-foreground py-3.5 rounded-xl font-bold text-sm tracking-tight hover:opacity-90 transition-all">
+            Establish Connection
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 브라우저 캐시 방지를 위해 스크립트를 동적으로 로드합니다.
+    const script = document.createElement('script');
+    script.src = 'src/js/app.js?v=' + Date.now();
+    document.body.appendChild(script);
+  </script>
+</body>
+
+</html>

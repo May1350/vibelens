@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+:root {
+  --background: oklch(0.9911 0 0);
+  --foreground: oklch(0.2046 0 0);
+  --card: oklch(0.9911 0 0);
+  --card-foreground: oklch(0.2046 0 0);
+  --popover: oklch(0.9911 0 0);
+  --popover-foreground: oklch(0.4386 0 0);
+  --primary: oklch(0.8348 0.1302 160.9080);
+  --primary-foreground: oklch(0.2626 0.0147 166.4589);
+  --secondary: oklch(0.9940 0 0);
+  --secondary-foreground: oklch(0.2046 0 0);
+  --muted: oklch(0.9461 0 0);
+  --muted-foreground: oklch(0.2435 0 0);
+  --accent: oklch(0.9461 0 0);
+  --accent-foreground: oklch(0.2435 0 0);
+  --destructive: oklch(0.5523 0.1927 32.7272);
+  --destructive-foreground: oklch(0.9934 0.0032 17.2118);
+  --border: oklch(0.9037 0 0);
+  --input: oklch(0.9731 0 0);
+  --ring: oklch(0.8348 0.1302 160.9080);
+  --radius: 0.5rem;
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: monospace;
+}
+
+.dark {
+  --background: oklch(0.1822 0 0);
+  --foreground: oklch(0.9288 0.0126 255.5078);
+  --card: oklch(0.2046 0 0);
+  --card-foreground: oklch(0.9288 0.0126 255.5078);
+  --popover: oklch(0.2603 0 0);
+  --popover-foreground: oklch(0.7348 0 0);
+  --primary: oklch(0.4365 0.1044 156.7556);
+  --primary-foreground: oklch(0.9213 0.0135 167.1556);
+  --secondary: oklch(0.2603 0 0);
+  --secondary-foreground: oklch(0.9851 0 0);
+  --muted: oklch(0.2393 0 0);
+  --muted-foreground: oklch(0.7122 0 0);
+  --accent: oklch(0.3132 0 0);
+  --accent-foreground: oklch(0.9851 0 0);
+  --destructive: oklch(0.3123 0.0852 29.7877);
+  --destructive-foreground: oklch(0.9368 0.0045 34.3092);
+  --border: oklch(0.2809 0 0);
+  --input: oklch(0.2603 0 0);
+  --ring: oklch(0.8003 0.1821 151.7110);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Utilities */
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-card {
+  background-color: var(--card);
+}
+
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.bg-muted {
+  background-color: var(--muted);
+}
+
+.bg-destructive {
+  background-color: var(--destructive);
+}
+
+/* Progress Bar */
+.progress-fill {
+  height: 100%;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Heatmap Styles */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(26, 1fr);
+  /* 26 weeks (~6 months) */
+  gap: 4px;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1/1;
+  min-width: 12px;
+  border-radius: 2px;
+  background-color: var(--muted);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: help;
+}
+
+/* Levels based on OKLCH Primary */
+.level-0 {
+  background-color: var(--muted);
+  opacity: 0.3;
+}
+
+.level-1 {
+  background-color: var(--primary);
+  opacity: 0.3;
+}
+
+.level-2 {
+  background-color: var(--primary);
+  opacity: 0.6;
+}
+
+.level-3 {
+  background-color: var(--primary);
+  opacity: 0.8;
+}
+
+.level-4 {
+  background-color: var(--primary);
+  opacity: 1;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.3);
+  z-index: 10;
+  box-shadow: 0 0 8px var(--primary);
+}
+
+/* Animations */
+@keyframes update-pulse {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.4365 0.1044 156.7556 / 0.4);
+    border-color: var(--primary);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px oklch(0.4365 0.1044 156.7556 / 0);
+    border-color: var(--border);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.4365 0.1044 156.7556 / 0);
+    border-color: var(--border);
+  }
+}
+
+.update-flash {
+  animation: update-pulse 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.timer-font {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.expandable-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.expanded .expandable-content {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border);
+}
