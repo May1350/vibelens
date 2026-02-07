@@ -53,6 +53,8 @@ class VibeLensWebviewProvider {
                     vscode.window.showInformationMessage(`VibeLens: Welcome, ${email}!`);
                     this.updateView();
                 }
+            } else if (message.command === 'openDashboard') {
+                vscode.env.openExternal(vscode.Uri.parse('https://vibelens-fxnro0ske-may1350s-projects.vercel.app/'));
             }
         });
 
