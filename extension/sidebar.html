@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --primary: #00ff80;
+            --bg: #111111;
+            --card: #1a1a1a;
+            --text: #ffffff;
+            --text-muted: #888888;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .account-box {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+        }
+
+        .label {
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .email {
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 0;
+            word-break: break-all;
+        }
+
+        .timer-row {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: "SF Mono", monospace;
+        }
+
+        .model-item {
+            margin-top: 16px;
+        }
+
+        .model-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .progress-bg {
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 255, 128, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        #copy-success {
+            font-size: 9px;
+            color: var(--primary);
+            text-align: center;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .login-mini-btn {
+            background: rgba(0, 255, 128, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 8px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .login-mini-btn:hover {
+            background: var(--primary);
+            color: black;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .settings-btn:hover {
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* [NEW] Quick Guide Styles */
+        #guide-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 32px 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .guide-step {
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: slideIn 0.4s ease forwards;
+        }
+
+        .guide-step:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .guide-step:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .guide-step:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-num {
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--primary);
+            background: rgba(0, 255, 128, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .close-guide {
+            margin-top: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: -0.02em;">VibeLens Status</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="settings-btn" onclick="toggleGuide()" title="How to Sync">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+            </button>
+            <div class="status-dot"></div>
+        </div>
+    </div>
+    <!-- Quick Guide Overlay -->
+    <div id="guide-overlay">
+        <div style="margin-bottom: 32px;">
+            <h2 style="font-size: 20px; font-weight: 800; letter-spacing: -0.03em; margin: 0;">Establish<br><span
+                    style="color: var(--primary)">Mission Control</span></h2>
+            <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">Sync your IDE usage to the web
+                dashboard in 30 seconds.</p>
+        </div>
+
+        <div class="guide-step">
+            <span class="step-num">STEP 01</span>
+            <div class="step-title">Open Dashboard</div>
+            <div class="step-desc">Visit <span
+                    style="color: var(--primary); text-decoration: underline;">vibelens-gray.vercel.app</span> in your
+                browser.
+            </div>
+        </div>
+
+        <div class="guide-step">
+            <span class="step-num">STEP 02</span>
+            <div class="step-title">Copy Sync Key</div>
+            <div class="step-desc">Click the 'Copy Dashboard Sync Key' button at the bottom of this sidebar.</div>
+        </div>
+
+        <div class="guide-step">
+            <span class="step-num">STEP 03</span>
+            <div class="step-title">Establish Link</div>
+            <div class="step-desc">Click 'Add Account' on the dashboard and paste your unique key.</div>
+        </div>
+
+        <button class="close-guide" onclick="toggleGuide()">Got it, Master</button>
+    </div>
+
+    <div class="account-box">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1; overflow: hidden; margin-right: 8px;">
+                <div class="label" id="account-label">VibeLens Account</div>
+                <div class="email" id="email" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    Detecting...</div>
+            </div>
+            <div id="account-action">
+                <button class="login-mini-btn" onclick="login()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="model-list">
+        <!-- 모델들이 여기에 자동으로 생성됩니다 -->
+        <div class="model-item">
+            <div class="model-info">
+                <span>System Status</span>
+                <span>--%</span>
+            </div>
+            <div class="progress-bg">
+                <div class="progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="action-btn" onclick="copySyncKey()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        Copy Dashboard Sync Key
+    </button>
+    <div id="copy-success">Key copied to clipboard!</div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+
+        function login() {
+            vscode.postMessage({ command: 'login' });
+        }
+
+        function copySyncKey() {
+            // Send message to extension to handle clipboard
+            vscode.postMessage({ command: 'copyKey' });
+
+            const success = document.getElementById('copy-success');
+            success.style.opacity = '1';
+            setTimeout(() => success.style.opacity = '0', 2000);
+        }
+
+        // Listen for data updates from extension
+        window.addEventListener('message', event => {
+            const data = event.data;
+            if (data.type === 'update') {
+                document.getElementById('email').textContent = data.payload.email;
+
+                // [NEW] 로그인 여부에 따라 버튼 또는 톱니바퀴 표시
+                const actionContainer = document.getElementById('account-action');
+                const isLoggedOut = data.payload.email === "Login Required" || !data.payload.email;
+
+                if (isLoggedOut) {
+                    actionContainer.innerHTML = `<button class="login-mini-btn" onclick="login()">Login</button>`;
+                    document.getElementById('account-label').textContent = "VibeLens Account";
+                } else {
+                    actionContainer.innerHTML = `
+                        <button class="settings-btn" onclick="login()" title="Change Account">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </button>
+                    `;
+                    document.getElementById('account-label').textContent = "Active Profile";
+                }
+
+                // 2. 모델 리스트를 초기화합니다.
+                const list = document.getElementById('model-list');
+                list.innerHTML = '';
+
+                // 2. 받은 모든 모델을 순회하며 HTML을 생성합니다.
+                data.payload.models.forEach(model => {
+                    const item = document.createElement('div');
+                    item.className = 'model-item';
+                    item.innerHTML = `
+                        <div class="model-info">
+                            <span style="font-weight: 700;">${model.name.toUpperCase()}</span>
+                            <span style="color: var(--primary); font-family: 'SF Mono', monospace; font-size: 9px;">${model.resetIn}</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="width: ${model.percentage}%; background: ${model.percentage < 20 ? '#ff4d4d' : 'var(--primary)'};"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 8px; color: var(--text-muted); margin-top: 4px;">
+                            <span>${model.info}</span>
+                            <span>${model.percentage}%</span>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+        });
+
+        function toggleGuide() {
+            const guide = document.getElementById('guide-overlay');
+            guide.style.display = guide.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // 모든 준비(리스너 등록)가 끝난 후 데이터를 요청합니다.
+        vscode.postMessage({ command: 'ready' });
+    </script>
+</body>
+
+</html>
