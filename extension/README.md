@@ -1,24 +1,29 @@
-# VibeLens - AI Quota Mission Control
+# VibeLens: Your AI Quota Command Center
 
-**VibeLens** is a premium monitoring tool for developers using AI-powered IDEs (like Antigravity). It bridges your real-time usage data to a beautiful, high-definition web dashboard.
+VibeLens is a zero-latency bridge that connects your Antigravity IDE's local AI usage data to a premium web dashboard. It solves one simple problem: **"How many Claude/Gemini tokens do I have left, and when do they reset?"**
 
-## ✨ Features
+## 🏗️ Core Architecture (How it works)
+VibeLens is NOT a cloud-based tracker. It is a **Privacy-First Local Bridge**:
+1. **Local Collection**: The extension captures your IDE's internal quota data via a local bridge (`127.0.0.1`).
+2. **Local Storage**: Your usage history (Heatmap) and account keys are stored ONLY in your browser's `LocalStorage`.
+3. **No Database**: We don't have a central server. Your data never leaves your machine.
 
-- 🛰️ **Real-time Sync**: Instantly bridges your AI model quotas to the web.
-- 📊 **Vibe Heatmap**: Visualize your productivity peaks with GitHub-style activity maps.
-- 🕒 **Countdown Precision**: Never guess when your tokens will reset.
-- 🎭 **Smart Folding**: Automatically hides 100% full models to focus on what's left.
-- 🛡️ **Privacy First**: Your data stays on your machine and in your browser. No central database.
+## 🔌 UX Flow (30-Second Setup)
+![VibeLens UX Flow](https://raw.githubusercontent.com/May1350/vibelens/main/extension/resources/flow_diagram.png)
 
-## 🚀 Quick Start
+1. **Activate**: Click the VibeLens icon in your VS Code Activity Bar.
+2. **Key**: Copy your unique **Dashboard Sync Key** from the sidebar.
+3. **Link**: Click 'Open Live Dashboard' and paste the key. 
+4. **Done**: Your quotas and heatmaps are now live on the web.
 
-1. **Open VibeLens** in your VS Code Activity Bar.
-2. Click the **Dashboard** button to open your command center.
-3. Click the **'?' Guide** in the extension sidebar to get your unique **Sync Key**.
-4. **Link & Launch**: Paste the key in the dashboard, and you're in control.
+## 🎯 Key Features
+- **Live Sync**: Real-time numerical tracking of Gemini and Claude models.
+- **Vibe Heatmap**: Visualizes your daily AI interaction peaks.
+- **Smart Folding**: Automatically hides 100% full models to reduce UI clutter.
+- **Zero Configuration**: No passwords or cloud accounts required. The extension IS your identity.
 
-## 🌐 Dashboard URL
-[Visit Live Dashboard](https://vibelens-fxnro0ske-may1350s-projects.vercel.app/)
+## 🌐 Mission Control
+[Launch Live Dashboard](https://vibelens-fxnro0ske-may1350s-projects.vercel.app/)
 
 ---
-Made with ❤️ for the AI Developer Community.
+*VibeLens is designed for developers who value privacy as much as productivity.*

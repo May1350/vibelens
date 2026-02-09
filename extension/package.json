@@ -12,8 +12,8 @@
     "vscode": "^1.74.0"
   },
   "categories": [
+    "AI",
     "Visualization",
-    "Productivity",
     "Data Science"
   ],
   "keywords": [
@@ -25,7 +25,7 @@
     "monitoring",
     "vibelens"
   ],
-  "icon": "resources/icon.svg",
+  "icon": "resources/icon.png",
   "activationEvents": [
     "*"
   ],
@@ -36,7 +36,7 @@
         {
           "id": "vibelens-explorer",
           "title": "VibeLens",
-          "icon": "resources/icon.svg"
+          "icon": "resources/icon.png"
         }
       ]
     },
