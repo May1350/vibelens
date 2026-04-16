@@ -1,36 +1,74 @@
-# VibeLens - AI Quota Mission Control
+# VibeLens — AI Quota Mission Control
 
-VibeLens is a premium dashboard and browser extension designed to help you monitor your AI model quotas in real-time.
+Real-time dashboard + VS Code extension for monitoring usage quotas across multiple AI models. Privacy-first, local-only storage.
 
-## 🚀 Deployment Guide
-
-### 1. Web Dashboard (Frontend)
-The web dashboard is a static site. You can deploy it instantly to **Vercel** or **Netlify**.
-
-**Method A: Vercel (Recommended)**
-1. Go to [Vercel.com](https://vercel.com).
-2. Click **Add New** -> **Project**.
-3. Import this repository (or drag and drop the folder).
-4. Vercel will automatically detect the static files and deploy them.
-
-**Method B: GitHub Pages**
-1. Push this code to a GitHub repository.
-2. Go to **Settings** -> **Pages**.
-3. Select the `main` branch and `/ (root)` folder.
-
-### 2. VS Code Extension (Backend)
-To build the extension for personal use:
-1. Open the `extension` folder in your terminal.
-2. Run `npm install`.
-3. Install the VSCE tool: `npm install -g @vscode/vsce`.
-4. Run `vsce package` to generate a `.vsix` file.
-5. Install the `.vsix` file in VS Code.
-
-## 🛠 Features
-- **Real-time Sync**: Bridges Antigravity IDE quota data to the web.
-- **Vibe Heatmap**: Visualizes your daily AI consumption.
-- **Smart Reordering**: Focuses on models that need reset soon.
-- **Privacy First**: All data is stored locally in your browser.
+**Author**: [@May1350](https://github.com/May1350) · Keio Univ. Faculty of Business & Commerce · 2026-
 
 ---
-Created with ❤️ by VibeLens Team.
+
+## Why
+
+AI coding has become routine, but usage is fragmented:
+
+- Claude / Codex / Gemini quotas reset on different cadences
+- IDE-side indicators are hidden inside individual tools (e.g., Antigravity IDE)
+- Hitting a quota mid-flow kills momentum
+
+**VibeLens** surfaces quota state in one place so you can pick *which model to use next* at a glance, and catch near-reset windows before switching unnecessarily.
+
+## What it gives you
+
+- **Real-time sync** — bridges Antigravity IDE quota data to a standalone web dashboard
+- **Vibe Heatmap** — visualizes daily AI consumption by model, time-of-day, and project
+- **Smart Reordering** — surfaces models with imminent resets so you don't over-switch
+- **Privacy First** — all data is stored locally in the browser. No cloud, no telemetry
+- **Two touchpoints** — web dashboard for overview + VS Code extension for in-editor state
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Web dashboard | Static site (HTML · CSS · JavaScript) — deployable to Vercel / Netlify / GitHub Pages |
+| VS Code extension | TypeScript (VSCE package format) |
+| Data bridge | Antigravity IDE API → local storage |
+| Storage | Browser `localStorage` only. No external DB |
+
+## Quickstart
+
+### Web dashboard (Vercel recommended)
+
+1. Go to [vercel.com](https://vercel.com) → **Add New** → **Project**
+2. Import this repository (or drag-and-drop the folder)
+3. Vercel auto-detects the static files and deploys
+
+Alt: push to GitHub Pages via **Settings → Pages → main branch → /root**.
+
+### VS Code extension (personal build)
+
+```bash
+cd extension
+npm install
+npm install -g @vscode/vsce
+vsce package
+# Install the generated .vsix in VS Code (Extensions → ⋯ → Install from VSIX)
+```
+
+## Roadmap
+
+- [ ] Additional providers (Anthropic Claude, OpenAI direct, Gemini CLI)
+- [ ] Team-shared snapshot view (opt-in)
+- [ ] Weekly burn rate digest (Markdown export)
+
+## Design principles
+
+- **Local first**: your quota data never leaves the browser
+- **Low friction**: runs as a static site + lightweight extension, no server required
+- **Honest UI**: show what is known, mark what is `unverified`
+
+## License
+
+MIT — see `LICENSE` if present, or contact [@May1350](https://github.com/May1350) for clarification.
+
+---
+
+*Built in spare time as part of an exploration on how an "AI orchestrator" (a person who directs AI to write code rather than writing it from scratch) can ship useful developer tools. See also my other projects focused on the same theme: [life-builder](https://github.com/May1350/life-builder), [Axis_hp](https://github.com/May1350/Axis_hp).*
